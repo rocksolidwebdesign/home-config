@@ -47,7 +47,6 @@ fun! SetupVAM()
 
   " Tell VAM which plugins to fetch & load:
   call vam#ActivateAddons(['The_NERD_tree','fugitive','matchit.zip','YankRing','molokai','inkpot','Solarized','ctrlp','bufkill','ack','jst','haml.zip','vim-coffee-script'], {'auto_install' : 1})
-  call 
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory
@@ -66,7 +65,6 @@ endfun
 
 fun MyPoolFun()
   let d = vam#install#Pool()
-  " let d['coffeescript'] = { 'type' : 'git', 'url' : 'https://github.com/kchmck/vim-coffee-script/' }
   let d['jst'] = { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }
   return d
 endf
@@ -166,62 +164,58 @@ endif
 " }}}
 " }}}
 " Variable Settings {{{
-" TagList Plugin Settings
-let Tlist_Auto_Highlight_Tag = 0
-let Tlist_Sort_Type = "name"
-let Tlist_Highlight_Tag_On_BufEnter = 0
-let Tlist_Use_Right_Window = 1
 
-" Filetype Plugin Settings
-let g:no_html_tab_mapping=1 " let me insert tabs when i press the freakin tab key!
-let g:html_tag_case='lowercase'
-let g:sql_type_default='mysql'
-let g:miniBufExplTabWrap=1
-
-" system specific settings
-let g:my_project_root_dir = '/srv'
-let g:CommandTMaxHeight   = 5
+" prevent annoying warnings from nerdtree
+let g:NERDShutUp = 1
 
 " don't load the matchparen plugin
 let loaded_matchparen = 1
 
-let g:my_project_tagfile_name = 'tags'
-let g:my_project_current_project = ''
+" filetype plugin settings
+let g:no_html_tab_mapping = 1 " let me insert tabs when i press the freakin tab key!
+let g:html_tag_case = 'lowercase'
+let g:sql_type_default = 'pgsql'
+let g:miniBufExplTabWrap = 1
 
-let g:NERDShutUp = 1
+" taglist plugin settings
+let Tlist_Auto_Highlight_Tag = 0
+let Tlist_Sort_Type = "name"
+let Tlist_Highlight_Tag_On_BufEnter = 0
+let Tlist_Use_Right_Window = 1
 " }}}
 " GUI vs Console {{{
 " ****************************************************************
 set winaltkeys=no
 
+" Unbreak Unix style mouse selection -> copy
+vnoremap <LeftRelease> "+y<LeftRelease>gv
+
+" tab display
+if v:version >= 700
+    set guitablabel=%L\ %t\ %h
+    set guitabtooltip=%f
+endif
+
+" Setup Toolbars
+set guioptions=t " with menubar and toolbar and tearoffs
+
+" Set Font
+if has("win32")
+    set gfn=DejaVu_Sans_Mono:h8:cANSI
+elseif has("unix")
+    set gfn=DejaVu\ Sans\ Mono\ 9
+endif
+
+" light in gvim, dark in terminal
 if has("gui_running")
-    " Unbreak Unix style mouse selection -> copy
-    vnoremap <LeftRelease> "+y<LeftRelease>gv
-
-    " tab display
-    if v:version >= 700
-        set guitablabel=%L\ %t\ %h
-        set guitabtooltip=%f
-    endif
-
-    colorscheme molokai
-    hi Folded guifg=#dddddd guibg=#1B1D1E
+    "colorscheme molokai
+    "hi Folded guifg=#dddddd guibg=#1B1D1E
 
     "colorscheme inkpot
     "hi Folded guibg=#1c314c guifg=#dddddd
 
-    "colorscheme solarized
-    "set background=light
-
-    " Setup Toolbars
-    set guioptions=t " with menubar and toolbar and tearoffs
-
-    " Set Font
-    if has("win32")
-        set gfn=DejaVu_Sans_Mono:h8:cANSI
-    elseif has("unix")
-        set gfn=DejaVu\ Sans\ Mono\ 9
-    endif
+    colorscheme solarized
+    set background=light
 else
     colorscheme molokai
     hi Folded guibg=#1c314c guifg=#dddddd
@@ -233,7 +227,6 @@ else
     "set background=light
 
     "set t_Co=256
-
     set mouse=a
 endif
 " }}}
@@ -295,6 +288,7 @@ nnoremap > >>
 vnoremap > >gv
 vnoremap < <gv
 
+noremap <M-q> :qa!
 noremap <M-v> "+P
 noremap <M-V> "+p
 noremap <M-c> "+y
