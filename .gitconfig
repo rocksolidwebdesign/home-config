@@ -1,0 +1,68 @@
+[user]
+  name  = John Doe
+  email = email@example.com
+[giggle]
+  main-window-maximized = false
+  main-window-geometry = 1246x874+284+121
+  file-view-vpane-position = 368
+  history-view-vpane-position = 553
+  main-window-view = HistoryView
+[alias]
+  b = branch
+  co = checkout
+  c = commit
+  ca = commit -a -m
+  unadd = reset HEAD
+  d  = diff
+  dw = diff -w
+  dc = diff --cached lc = log ORIG_HEAD.. --stat --no-merges
+  gl = log --pretty=format:'%C(yellow)%h%C(reset) | %an | %ar | %C(cyan)%s%C(reset)%d' --topo-order --graph --decorate
+  s = status
+  st = status -sb
+  prune-all = !git remote | xargs -n 1 git remote prune
+  whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+  whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = blue reverse
+  local = blue
+  remote = green
+[color "diff"]
+  meta = blue bold
+  frag = magenta
+  old = red
+  new = green
+[color "status"]
+  added = green
+  changed = red
+  untracked = cyan
+[push]
+  default = tracking
+[mergetool]
+  prompt = false
+[difftool]
+  prompt = false
+[diff]
+  tool = gvimdiff3
+[merge]
+  tool = gvimsimplemerge3
+[mergetool "threesome"]
+  cmd = gvim -f --cmd \"let my_diff_mode_flag = 1\" -c \"ThreesomeInit\" \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+  trustExitCode = true
+[mergetool "gvimdiff3"]
+  cmd = gvim -f -d --cmd \"let my_diff_mode_flag = 1\" \"$REMOTE\" \"$LOCAL\"
+[mergetool "vimdiff3"]
+  cmd = vim -f -d --cmd \"let my_diff_mode_flag = 1\" \"$REMOTE\" \"$LOCAL\"
+[mergetool "gvimmerge3"]
+  cmd = gvim -f -d --cmd \"let my_diff_mode_flag = 1\" \"$REMOTE\" \"$LOCAL\" \"$MERGED\"
+[mergetool "vimmerge3"]
+  cmd = vim -f -d --cmd \"let my_diff_mode_flag = 1\" \"$REMOTE\" \"$LOCAL\" \"$MERGED\"
+[mergetool "gvimsimplemerge3"]
+  cmd = gvim -f --cmd \"let my_diff_mode_flag = 1\" \"$MERGED\"
+[mergetool "vimsimplemerge3"]
+  cmd = vim -f --cmd \"let my_diff_mode_flag = 1\" \"$MERGED\"
+[rerere]
+  enabled = 1
