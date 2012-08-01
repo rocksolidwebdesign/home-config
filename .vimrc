@@ -192,7 +192,7 @@ let Tlist_Use_Right_Window = 1
 " syntax hilite with folds
 let ruby_no_expensive = 1
 
-" JRuby Load-Speed Fix {{{
+" JRuby Load-Speed Fix
 " if !empty(matchstr($MY_RUBY_HOME, 'jruby'))
 if !empty(matchstr($MY_RUBY_HOME, 'jruby'))
   "let g:ruby_path = join(split(glob($MY_RUBY_HOME.'/lib/ruby/*.*')."\n".glob($MY_RUBY_HOME.'/lib/ruby/site_ruby/*'),"\n"),',')
@@ -207,7 +207,6 @@ if !empty(matchstr($MY_RUBY_HOME, 'jruby'))
   " the ruby plugin that I'm aware
   let g:ruby_path = '/home/vaughn/.rvm/rubies/jruby-1.6.7.2/lib/ruby/1.9,/home/vaughn/.rvm/rubies/jruby-1.6.7.2/lib/ruby/site_ruby/shared'
 endif
-" }}}
 " }}}
 " GUI vs Console {{{
 " ****************************************************************
