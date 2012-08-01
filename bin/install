@@ -16,6 +16,6 @@ ln -s $PWD/.vim $HOME/.vim
 ln -s $PWD/.vimrc $HOME/.vimrc
 ln -s $PWD/.ctags $HOME/.ctags
 ln -s $PWD/.Xkbmap $HOME/.Xkbmap
-ln -s $PWD/.gitconfig $HOME/.gitconfig
+cp -s $PWD/.gitconfig $HOME/.gitconfig
 ln -s $PWD/.jrubyrc $HOME/.jrubyrc
 ln -s $PWD/.zshrc $HOME/.zshrc
