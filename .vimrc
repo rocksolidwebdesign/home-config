@@ -62,7 +62,7 @@ function! SetupVAM()
 
   " Tell VAM which plugins to fetch & load:
   call vam#ActivateAddons(['The_NERD_tree','ctrlp','fugitive','bufkill','ack','matchit.zip','surround','YankRing','jst','haml.zip','vim-coffee-script','molokai','inkpot','Solarized'], {'auto_install' : 1})
-  " call vam#ActivateAddons(['surround','Limp','The_NERD_tree','fugitive','matchit.zip','YankRing','molokai','inkpot','Solarized','ctrlp','bufkill','ack','jst','haml.zip','vim-coffee-script'], {'auto_install' : 1})
+  
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory

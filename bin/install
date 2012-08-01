@@ -1,0 +1,21 @@
+#!/bin/bash
+bak_dir=$HOME/.home-config.bak
+ts=$(date +%Y-%m-%dT%H%M%S)
+mkdir -p $bak_dir/$ts
+
+mv $HOME/.vim         $bak_dir/$ts/.vim
+mv $HOME/.vimrc       $bak_dir/$ts/.vimrc
+mv $HOME/.ctags       $bak_dir/$ts/.ctags
+mv $HOME/.Xkbmap      $bak_dir/$ts/.Xkbmap
+mv $HOME/.gitconfig   $bak_dir/$ts/.gitconfig
+mv $HOME/.gitignore   $bak_dir/$ts/.gitignore
+mv $HOME/.jrubyrc     $bak_dir/$ts/.jrubyrc
+mv $HOME/.zshrc       $bak_dir/$ts/.zshrc
+
+ln -s $PWD/.vim $HOME/.vim
+ln -s $PWD/.vimrc $HOME/.vimrc
+ln -s $PWD/.ctags $HOME/.ctags
+ln -s $PWD/.Xkbmap $HOME/.Xkbmap
+ln -s $PWD/.gitconfig $HOME/.gitconfig
+ln -s $PWD/.jrubyrc $HOME/.jrubyrc
+ln -s $PWD/.zshrc $HOME/.zshrc
