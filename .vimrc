@@ -1,5 +1,20 @@
-" Vim Addon Manager Init {{{
-fun! EnsureVamIsOnDisk(vam_install_path)
+" Vim Config File
+"   standard settings to keep me sane
+"
+" Dependencies:
+"     par
+"     exuberant-ctags
+"     perl
+"     DejaVu Sans Mono
+"
+" Last Modified: 11/13/2010
+" ****************************************************************
+
+filetype indent plugin on
+syntax enable
+
+" VAM - The Vim Addon Manager {{{
+function! EnsureVamIsOnDisk(vam_install_path)
   " windows users may want to use http://mawercer.de/~marc/vam/index.php
   " to fetch VAM, VAM-known-repositories and the listed plugins
   " without having to install curl, 7-zip and git tools first
@@ -23,9 +38,9 @@ fun! EnsureVamIsOnDisk(vam_install_path)
     endif
     return eval(is_installed_c)
   endif
-endf
+endfunction
 
-fun! SetupVAM()
+function! SetupVAM()
   " Set advanced options like this:
   " let g:vim_addon_manager = {}
   " let g:vim_addon_manager['key'] = value
@@ -46,7 +61,8 @@ fun! SetupVAM()
   exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
 
   " Tell VAM which plugins to fetch & load:
-  call vam#ActivateAddons(['The_NERD_tree','fugitive','matchit.zip','YankRing','molokai','inkpot','Solarized','ctrlp','bufkill','ack','jst','haml.zip','vim-coffee-script'], {'auto_install' : 1})
+  call vam#ActivateAddons(['The_NERD_tree','ctrlp','fugitive','bufkill','ack','matchit.zip','surround','YankRing','jst','haml.zip','vim-coffee-script','molokai','inkpot','Solarized'], {'auto_install' : 1})
+  " call vam#ActivateAddons(['surround','Limp','The_NERD_tree','fugitive','matchit.zip','YankRing','molokai','inkpot','Solarized','ctrlp','bufkill','ack','jst','haml.zip','vim-coffee-script'], {'auto_install' : 1})
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory
@@ -61,13 +77,13 @@ fun! SetupVAM()
   "    ..ActivateAddons(["github:foo", .. => github://foo/vim-addon-foo
   "    ..ActivateAddons(["github:user/repo", .. => github://user/repo
   " Also see section "2.2. names of addons and addon sources" in VAM's documentation
-endfun
+endfunction
 
-fun MyPoolFun()
+function! MyPoolFun()
   let d = vam#install#Pool()
   let d['jst'] = { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }
   return d
-endf
+endfunction
 
 let g:vim_addon_manager = {}
 let g:vim_addon_manager.pool_fun = function('MyPoolFun')
@@ -82,27 +98,13 @@ call SetupVAM()
 " Vim 7.0 users see BUGS section [3]
 " }}}
 
-" Vim Config File
-"   standard settings to keep me sane
-"
-" Dependencies:
-"     par
-"     exuberant-ctags
-"     perl
-"     DejaVu Sans Mono
-"
-" Last Modified: 11/13/2010
-" ****************************************************************
-
-filetype indent plugin on
-syntax enable
-
 " Option Settings {{{
 set hidden
 set wildmenu
 set nocompatible
 set number
 set ruler
+
 set list
 "set encoding=utf8
 
@@ -145,6 +147,7 @@ set display=lastline,uhex
 set sessionoptions+=resize
 
 set laststatus=2
+" set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c\ %)%P
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%{fugitive#statusline()}%=%-16(\ %l,%c\ %)%P
 
 " Sophisticated Swap Files {{{
@@ -182,6 +185,29 @@ let Tlist_Auto_Highlight_Tag = 0
 let Tlist_Sort_Type = "name"
 let Tlist_Highlight_Tag_On_BufEnter = 0
 let Tlist_Use_Right_Window = 1
+
+" don't bother to colorize end tags differently
+" based on what type of block is being ended
+" hopefully this means faster loads and better
+" syntax hilite with folds
+let ruby_no_expensive = 1
+
+" JRuby Load-Speed Fix {{{
+" if !empty(matchstr($MY_RUBY_HOME, 'jruby'))
+if !empty(matchstr($MY_RUBY_HOME, 'jruby'))
+  "let g:ruby_path = join(split(glob($MY_RUBY_HOME.'/lib/ruby/*.*')."\n".glob($MY_RUBY_HOME.'/lib/ruby/site_ruby/*'),"\n"),',')
+  "let g:ruby_path = join(split(glob($MY_RUBY_HOME.'/lib/ruby/*.*')."\n".glob($MY_RUBY_HOME.'/lib/ruby/site_ruby/*')."\n".glob($GEM_HOME.'*/**/lib'),"\n"),',')
+
+  " hardcoding this for speed, do  it this way if you're new
+  " and need to  figure out what your paths  actually are or
+  " maybe if you need to add or change some gems
+
+  " bare minimum  basics for a nicer/faster  startup time, I
+  " don't personally use any of  the gem related features of
+  " the ruby plugin that I'm aware
+  let g:ruby_path = '/home/vaughn/.rvm/rubies/jruby-1.6.7.2/lib/ruby/1.9,/home/vaughn/.rvm/rubies/jruby-1.6.7.2/lib/ruby/site_ruby/shared'
+endif
+" }}}
 " }}}
 " GUI vs Console {{{
 " ****************************************************************
@@ -208,14 +234,14 @@ endif
 
 " light in gvim, dark in terminal
 if has("gui_running")
-    "colorscheme molokai
-    "hi Folded guifg=#dddddd guibg=#1B1D1E
+    colorscheme molokai
+    hi Folded guifg=#dddddd guibg=#1B1D1E
 
     "colorscheme inkpot
     "hi Folded guibg=#1c314c guifg=#dddddd
 
-    colorscheme solarized
-    set background=light
+    "colorscheme solarized
+    "set background=light
 else
     colorscheme molokai
     hi Folded guibg=#1c314c guifg=#dddddd
@@ -231,7 +257,7 @@ else
 endif
 " }}}
 " Auto Commands {{{
-autocmd FileType xml,xhtml,html,php,phtml,erb,jst runtime scripts/closetag.vim
+"autocmd FileType xml,xhtml,html,php,phtml,eruby,jst runtime scripts/closetag.vim
 
 autocmd BufRead  *.handlebars set ft=handlebars
 autocmd BufRead  *.tpl        set ft=jst
@@ -241,21 +267,19 @@ autocmd BufRead  *.conf       set ft=apache
 autocmd BufRead  *.phtml      set ft=php
 autocmd BufRead  *.wsgi       set ft=python
 autocmd BufWrite *.wsgi       set ft=python
+autocmd BufRead  *.haml.js    set ft=haml
+autocmd BufRead  *.jst.haml   set ft=haml
+autocmd BufRead  *            set sts=2 sw=2
 " }}}
 " Key Mappings {{{
-nnoremap <space> :call ToggleFold()<CR>
-
-" show and hide the menubar, toolbar and scrollbar respectively
-nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
-nnoremap <C-F2> :if &go=~#'T'<Bar>set go-=T<Bar>else<Bar>set go+=T<Bar>endif<CR>
-nnoremap <C-F3> :if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
 
 " fast .vimrc access
-nnoremap <Leader>e :e ~/.vimrc<CR>
+nnoremap <Leader>v :e ~/.vimrc<CR>
 nnoremap <Leader>o :source ~/.vimrc<CR>
 
 " toggles
-nnoremap <Leader>p :CtrlP<CR>
+let g:ctrlp_map = '<Leader>p'
+"nmap <Leader>p :CtrlP<CR>
 nnoremap <Leader>f :botright copen<CR>
 nnoremap <Leader>x :cclose<CR>
 nnoremap <Leader>t :TlistToggle<CR>
@@ -264,16 +288,10 @@ nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <Leader>b :NERDTree 
 nnoremap <Leader>h :set hls!<CR>
 nnoremap <Leader>r :call ToggleRelativeNumber()<CR>
-vnoremap <Leader>r :call ToggleRelativeNumber()<CR>
+vnoremap <Leader>r :call ToggleRelativeNumberVisual()<CR>
 nnoremap <Leader>w :call ToggleWrap()<CR>
 nnoremap <Leader>m :call ToggleMousePaste()<CR>
 nnoremap <Leader>z :syntax on<CR>
-
-" auto insert curly braces on Control-F
-imap <C-F> {<CR>}<C-O>O
-
-" ex command for toggling hex mode - define mapping if desired
-" command -bar Hexmode call ToggleHex()
 
 " filters
 nnoremap <Leader>q {v}!par -jw
@@ -281,39 +299,53 @@ vnoremap <Leader>q !par -jw
 vnoremap <Leader>a !perl ~/.vim/bin/align.pl -c:=
 nnoremap <Leader>s :call StripWhitespace()<CR>
 
-" block movement
+" javascript specific stuff
+nnoremap <Leader>jsb :call JsBeautify()<CR>
+vnoremap <Leader>jsb :call JsBeautifyRange()<CR>
+
+nnoremap <Leader>jsy ^yypysiW)kysiW"ysiW)^iconsole.log<ESC>j^.$a;<ESC>k$a;<ESC>
+nnoremap <Leader>jsl ^v$hS"gvS)^iconsole.log<ESC>$a;<ESC>
+vnoremap <Leader>jsl S"gvS)^iconsole.log<ESC>$a;<ESC>
+
+" auto insert curly braces on Control-F
+inoremap <C-F> {<CR>}<C-O>O
+
+" alt key substitutions for normal style
+" editor things like copy paste save
+" close and quit
+nnoremap <M-q> :qa!<CR>
+nnoremap <M-v> "+P
+nnoremap <M-V> "+p
+vnoremap <M-c> "+y
+vnoremap <M-x> "+x
+nnoremap <M-s> :w<CR>
+nnoremap <M-w> :BD<CR>
+nnoremap <M-W> :bd<CR>
+nnoremap <M-n> :bn<CR>
+nnoremap <M-p> :bp<CR>
+
+" show and hide the menubar, toolbar and scrollbar respectively
+nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
+nnoremap <C-F2> :if &go=~#'T'<Bar>set go-=T<Bar>else<Bar>set go+=T<Bar>endif<CR>
+nnoremap <C-F3> :if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
+
+" override spacebar to open and close folds
+nnoremap <space> :call ToggleFold()<CR>
+
+" make indentation easier by default
 nnoremap < <<
 nnoremap > >>
 
+" make indentation keep selection intact
 vnoremap > >gv
 vnoremap < <gv
 
-noremap <M-q> :qa!
-noremap <M-v> "+P
-noremap <M-V> "+p
-noremap <M-c> "+y
-noremap <M-x> "+x
-noremap <M-s> :w<CR>
-noremap <M-w> :BD<CR>
-noremap <M-W> :bd<CR>
-noremap <M-n> :bn<CR>
-noremap <M-p> :bp<CR>
+nnoremap <C-e> j<C-e>
+nnoremap <C-y> k<C-y>
 
-noremap <M-j>j :m+<CR>==
-noremap <M-k>k :m-2<CR>==
-
-inoremap <M-j>j <C-O>:m+<CR><C-O>==
-inoremap <M-k>k <C-O>:m-2<CR><C-O>==
-inoremap <M-h> <C-O><<
-inoremap <M-l> <C-O>>>
-
-vnoremap <M-j> :m'>+<CR>gv=gv
-vnoremap <M-k> :m'<-2<CR>gv=gv
-vnoremap <M-l> >gv
-vnoremap <M-h> <gv
 " }}}
 " Functions {{{
-fun! ToggleMousePaste()
+function! ToggleMousePaste()
     if &mouse == 'a'
         set paste
         set mouse=
@@ -325,9 +357,14 @@ fun! ToggleMousePaste()
         set mouse=a
         echo 'Mouse Paste OFF'
     endif
-endf
+endfunction
 
-fun! ToggleRelativeNumber()
+function! ToggleRelativeNumberVisual()
+    call ToggleRelativeNumber()
+    normal gv
+endfunction
+
+function! ToggleRelativeNumber()
     if( &nu == 1 )
         set nonu
         set rnu
@@ -335,9 +372,9 @@ fun! ToggleRelativeNumber()
         set nu
         set nornu
     endif
-endf
+endfunction
 
-fun! ToggleWrap()
+function! ToggleWrap()
     set wrap!
 
     if( &wrap == 1 )
@@ -347,9 +384,9 @@ fun! ToggleWrap()
         unmap j
         unmap k
     endif
-endf
+endfunction
 
-fun! ToggleFold()
+function! ToggleFold()
     if foldlevel('.') == 0
         normal! l
     else
@@ -361,15 +398,15 @@ fun! ToggleFold()
     endif
     " Clear status line
     echo
-endf
+endfunction
 
-fun! StripWhitespace()
+function! StripWhitespace()
     let currPos=Mark()
     exe 'v:^--\s*$:s:\s\+$::e'
     exe currPos
-endf
+endfunction
 
-fun! Mark(...)
+function! Mark(...)
     if a:0 == 0
         let mark = line(".") . "G" . virtcol(".") . "|"
         normal! H
@@ -381,5 +418,109 @@ fun! Mark(...)
     else
         return "normal!" . a:1 . "G" . a:2 . "|"
     endif
-endf
+endfunction
+
+function! JsBeautify()
+  " Things `js-beautify` does not do
+  " ****************************************************************
+  " line breaks between class definitions
+  %s/^}\s*)\s*;\(\s*\n\)*/});\r\r/g
+
+  " line breaks between function definitions
+  %s/^  }\s*,\(\s*\n\)*/  },\r\r/g
+
+  " change $(this.el) to this.$el
+  %s/$(\s*\(this\|cmp\)\s*\.\s*el\s*)/\1.$el/g
+
+  " Run `js-beautify`
+  " ****************************************************************
+  %!myjsbeautify -
+
+  " Things to change
+  " ****************************************************************
+  " put opening function braces of underscore style closures back on the same line
+  %s/\(_\.[a-zA-Z0-9_]\+(.\{-}function\s([^{]*\)\s*\n\s*{\(\s*\n\)*/\1 {\r/
+  %s/\(_\.\s*extend\*([^{]*\)\s*\n\s*{\(\s*\n\)*/\1 {\r/
+
+  " put opening function braces of other closures back on the same line
+  %s/\((.\{-}function\s*[^{]*\)\(\s*\n\)*\s*{\(\s*\n\)*/\1 {\r/g
+
+  " put opening braces of foo({ bar: baz }) type calls back on the same line
+  %s/^\(\(.\(function\|if\|else\|while\|for\|try\|catch\|switch\)\@!\)*\)(\s*\n\s*{/\1({/
+
+  " catch those pesky object extenders
+  %s/\(_\.\s*extend\s*([^;]\+\)\(\s*\n\)\+\s*{\(\s*\n\)*/\1 {\r/
+
+  " normalize line breaks
+  %s/\(\s*\n\)\{3,}/\r\r/g
+endfunction
+
+function! JsBeautifyRange() range
+  " Things `js-beautify` does not do
+  " ****************************************************************
+  " line breaks between class definitions
+  '<,'>s/^}\s*)\s*;\(\s*\n\)*/});\r\r/g
+
+  " line breaks between function definitions
+  '<,'>s/^  }\s*,\(\s*\n\)*/  },\r\r/g
+
+  " change $(this.el) to this.$el
+  '<,'>s/$(\s*\(this\|cmp\)\s*\.\s*el\s*)/\1.$el/g
+
+  " Run `js-beautify`
+  " ****************************************************************
+  '<,'>!myjsbeautify -
+
+  " Things to change
+  " ****************************************************************
+  " put opening function braces of underscore style closures back on the same line
+  '<,'>s/\(_\.[a-zA-Z0-9_]\+(.\{-}function\s([^{]*\)\s*\n\s*{\(\s*\n\)*/\1 {\r/
+  '<,'>s/\(_\.\s*extend\*([^{]*\)\s*\n\s*{\(\s*\n\)*/\1 {\r/
+
+  " put opening function braces of other closures back on the same line
+  '<,'>s/\((.\{-}function\s*[^{]*\)\(\s*\n\)*\s*{\(\s*\n\)*/\1 {\r/g
+
+  " put opening braces of foo({ bar: baz }) type calls back on the same line
+  '<,'>s/^\(\(.\(function\|if\|else\|while\|for\|try\|catch\|switch\)\@!\)*\)(\s*\n\s*{/\1({/
+
+  " catch those pesky object extenders
+  '<,'>s/\(_\.\s*extend\s*([^;]\+\)\(\s*\n\)\+\s*{\(\s*\n\)*/\1 {\r/
+
+  " normalize line breaks
+  '<,'>s/\(\s*\n\)\{3,}/\r\r/g
+endfunction
+
+function! UnHamlize()
+  " keep things sane
+  %s/'/"/g
+
+  " normalish tags with attributes
+  %s/%\([a-zA-Z].\{-}\){\(.\{-}\)}/<\1 \2>/g
+
+  " tags with no attributes
+  %s/%\([a-zA-Z]\{-}\)\(\s\+\|\n\)/<\1>\2/g
+
+  " tags with attributes that have plain vars as values
+  %s/\(\s*\):\([a-z-]\{-}\)\s*=>\s*\([^"]\{-}\)\s*,/\1\2="<%= \3 %>"/g
+  %s/\(\s*\):\([a-z-]\{-}\)\s*=>\s*\([^"]\{-}\)\(\s*}\|\s*>\)/\1\2="<%= \3 %>"\4/g
+
+  " tags with attributes that are regular strings
+  %s/\(\s*\):\([a-z-]\{-}\)\s*=>\s*"\(.\{-}\)"\s*,/\1\2="\3"/g
+  %s/\(\s*\):\([a-z-]\{-}\)\s*=>\s*"\(.\{-}\)"\(\s*}\|\s*>\)/\1\2="\3"\4/g
+
+  " output tags
+  %s/^\(\s*\)= \(.*\)$/\1<%= \2 %>/
+
+  " script tags
+  %s/^\(\s*\)- \(.*\)$/\1<% \2 %>/
+
+  " interpolated variables
+  %s/#{\(.\{-}\)}/<%= \1 %>/g
+
+  " comments
+  %s#^\(\s*\)/\s*\(.*\)$#\1<!-- \2 -->#
+
+  " dangling script tags
+  %s#<script\(.*\)>\s*$#<script \1></script>#
+endfunction
 " }}}
