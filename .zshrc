@@ -99,3 +99,6 @@ export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 export ANDROID_HOME=/media/user/Library/android-sdk-linux
 export PATH=$PATH:/media/user/bin:/media/user/Library/android-sdk-linux/tools:/media/user/Library/android-sdk-linux/platform-tools
 # }}}
+
+# Untracked Mods
+source ~/.zshrc_local
