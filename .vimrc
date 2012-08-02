@@ -13,7 +13,35 @@
 filetype indent plugin on
 syntax enable
 
-" VAM - The Vim Addon Manager {{{
+" Active Plugins {{{
+let g:my_vim_plugins  = []
+let g:my_plugin_repos = [{'name': 'jst', 'settings': { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }}]
+                                                    " CORE
+call add(g:my_vim_plugins,  'The_NERD_tree'       ) "   file tree
+call add(g:my_vim_plugins,  'ctrlp'               ) "   fuzzy finder
+call add(g:my_vim_plugins,  'ack'                 ) "   a multi-file search utility
+
+                                                    " NICETIES
+call add(g:my_vim_plugins,  'matchit.zip'         ) "   better % matching
+call add(g:my_vim_plugins,  'YankRing'            ) "   copy paste history
+
+call add(g:my_vim_plugins,  'bufkill'             ) "   close file but not window
+call add(g:my_vim_plugins,  'fugitive'            ) "   the git plugin
+call add(g:my_vim_plugins,  'surround'            ) "   wrap text easily
+
+                                                    " LANGUAGES
+call add(g:my_vim_plugins,  'VimClojure'          ) "   clojure
+call add(g:my_vim_plugins,  'jst'                 ) "   Underscore.js Templates
+call add(g:my_vim_plugins,  'haml.zip'            ) "   HAML and SASS
+call add(g:my_vim_plugins,  'vim-coffee-script'   ) "   Coffeescript
+
+                                                    " COLORS
+call add(g:my_vim_plugins,  'molokai'             ) "  dark and colorful
+call add(g:my_vim_plugins,  'inkpot'              ) "  dark and blue-ish
+call add(g:my_vim_plugins,  'Solarized'           ) "  the only light scheme I like
+
+" }}}
+" VAM {{{
 function! EnsureVamIsOnDisk(vam_install_path)
   " windows users may want to use http://mawercer.de/~marc/vam/index.php
   " to fetch VAM, VAM-known-repositories and the listed plugins
@@ -32,7 +60,7 @@ function! EnsureVamIsOnDisk(vam_install_path)
                   \"time ask maintainers to improve documentation")
       call mkdir(a:vam_install_path, 'p')
       execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager'
-      " VAM runs helptags automatically when you install or update 
+      " VAM runs helptags automatically when you install or update
       " plugins
       exec 'helptags '.fnameescape(a:vam_install_path.'/vim-addon-manager/doc')
     endif
@@ -40,7 +68,23 @@ function! EnsureVamIsOnDisk(vam_install_path)
   endif
 endfunction
 
+function! MyExtraVamRepos()
+  let d = vam#install#Pool()
+
+  for repo in my_plugin_repos
+    let d[repo['name']] = repo['settings']
+  endfor
+
+  " the old way of doing it
+  " let d['jst'] = { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }
+
+  return d
+endfunction
+
 function! SetupVAM()
+  let g:vim_addon_manager = {}
+  let g:vim_addon_manager.pool_fun = function('MyExtraVamRepos')
+
   " Set advanced options like this:
   " let g:vim_addon_manager = {}
   " let g:vim_addon_manager['key'] = value
@@ -61,8 +105,7 @@ function! SetupVAM()
   exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
 
   " Tell VAM which plugins to fetch & load:
-  call vam#ActivateAddons(['The_NERD_tree','ctrlp','fugitive','bufkill','ack','matchit.zip','surround','YankRing','jst','haml.zip','vim-coffee-script','molokai','inkpot','Solarized'], {'auto_install' : 1})
-  
+  call vam#ActivateAddons(g:my_vim_plugins, {'auto_install' : 1})
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory
@@ -78,15 +121,6 @@ function! SetupVAM()
   "    ..ActivateAddons(["github:user/repo", .. => github://user/repo
   " Also see section "2.2. names of addons and addon sources" in VAM's documentation
 endfunction
-
-function! MyPoolFun()
-  let d = vam#install#Pool()
-  let d['jst'] = { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }
-  return d
-endfunction
-
-let g:vim_addon_manager = {}
-let g:vim_addon_manager.pool_fun = function('MyPoolFun')
 
 call SetupVAM()
 " experimental [E1]: load plugins lazily depending on filetype, See
@@ -271,6 +305,7 @@ autocmd BufRead  *.jst.haml   set ft=haml
 autocmd BufRead  *            set sts=2 sw=2
 " }}}
 " Key Mappings {{{
+let maplocalleader = "_"
 
 " fast .vimrc access
 nnoremap <Leader>v :e ~/.vimrc<CR>
@@ -278,13 +313,14 @@ nnoremap <Leader>o :source ~/.vimrc<CR>
 
 " toggles
 let g:ctrlp_map = '<Leader>p'
-"nmap <Leader>p :CtrlP<CR>
+
+"nnoremap <Leader>p :CtrlP<CR>
 nnoremap <Leader>f :botright copen<CR>
 nnoremap <Leader>x :cclose<CR>
 nnoremap <Leader>t :TlistToggle<CR>
 nnoremap <Leader>d :NERDTree ~/Desktop<CR>
 nnoremap <Leader>n :NERDTreeToggle<CR>
-nnoremap <Leader>b :NERDTree 
+nnoremap <Leader>b :NERDTree
 nnoremap <Leader>h :set hls!<CR>
 nnoremap <Leader>r :call ToggleRelativeNumber()<CR>
 vnoremap <Leader>r :call ToggleRelativeNumberVisual()<CR>
