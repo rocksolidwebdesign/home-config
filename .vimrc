@@ -15,7 +15,7 @@ syntax enable
 
 " Active Plugins {{{
 let g:my_vim_plugins  = []
-let g:my_plugin_repos = [{'name': 'jst', 'settings': { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }}]
+let g:my_plugin_repos = [{'name': 'jst', 'settings': { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst' }}]
                                                     " CORE
 call add(g:my_vim_plugins,  'The_NERD_tree'       ) "   file tree
 call add(g:my_vim_plugins,  'ctrlp'               ) "   fuzzy finder
@@ -71,7 +71,7 @@ endfunction
 function! MyExtraVamRepos()
   let d = vam#install#Pool()
 
-  for repo in my_plugin_repos
+  for repo in g:my_plugin_repos
     let d[repo['name']] = repo['settings']
   endfor
 
@@ -82,7 +82,7 @@ function! MyExtraVamRepos()
 endfunction
 
 function! SetupVAM()
-  let g:vim_addon_manager = {}
+  let g:vim_addon_manager = {'shell_commands_run_method': 'system','auto_install': 1, 'known_repos_activation_policy': 'always'}
   let g:vim_addon_manager.pool_fun = function('MyExtraVamRepos')
 
   " Set advanced options like this:
@@ -105,7 +105,8 @@ function! SetupVAM()
   exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
 
   " Tell VAM which plugins to fetch & load:
-  call vam#ActivateAddons(g:my_vim_plugins, {'auto_install' : 1})
+  " silent! vam#ActivateAddons(g:my_vim_plugins, {'auto_install' : 1})
+  call vam#ActivateAddons(g:my_vim_plugins)
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory
