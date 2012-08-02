@@ -42,6 +42,7 @@
 .thumbnails/
 .thunderbird/
 .vim/vim-addons
+.vim/swp/*
 .vim.old/
 .viminfo
 .vimrc.old
@@ -51,4 +52,5 @@
 .xsession-errors.old
 .zcompdump
 .zsh_history
-
+.emacs.d/elpa
+.emacs.d/auto-save-list
