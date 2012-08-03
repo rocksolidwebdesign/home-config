@@ -51,19 +51,11 @@ function! EnsureVamIsOnDisk(vam_install_path)
   if eval(is_installed_c)
     return 1
   else
-    if 1 == confirm("Clone VAM into ".a:vam_install_path."?","&Y\n&N")
-      " I'm sorry having to add this reminder. Eventually it'll pay off.
-      call confirm("Remind yourself that most plugins ship with ".
-                  \"documentation (README*, doc/*.txt). It is your ".
-                  \"first source of knowledge. If you can't find ".
-                  \"the info you're looking for in reasonable ".
-                  \"time ask maintainers to improve documentation")
-      call mkdir(a:vam_install_path, 'p')
-      execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager'
-      " VAM runs helptags automatically when you install or update
-      " plugins
-      exec 'helptags '.fnameescape(a:vam_install_path.'/vim-addon-manager/doc')
-    endif
+    call mkdir(a:vam_install_path, 'p')
+    "execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager'
+    execute '!git clone --depth=1 git://github.com/rocksolidwebdesign/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager'
+
+    exec 'helptags '.fnameescape(a:vam_install_path.'/vim-addon-manager/doc')
     return eval(is_installed_c)
   endif
 endfunction
@@ -106,7 +98,9 @@ function! SetupVAM()
 
   " Tell VAM which plugins to fetch & load:
   " silent! vam#ActivateAddons(g:my_vim_plugins, {'auto_install' : 1})
+  let g:vam_silent_log = 1
   call vam#ActivateAddons(g:my_vim_plugins)
+  unlet g:vam_silent_log
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory
