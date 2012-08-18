@@ -20,6 +20,8 @@ let g:my_plugin_repos = [{'name': 'jst', 'settings': { 'type' : 'git', 'url' : '
 call add(g:my_vim_plugins,  'The_NERD_tree'       ) "   file tree
 call add(g:my_vim_plugins,  'ctrlp'               ) "   fuzzy finder
 call add(g:my_vim_plugins,  'ack'                 ) "   a multi-file search utility
+call add(g:my_vim_plugins,  'EasyMotion'          ) "   a multi-file search utility
+call add(g:my_vim_plugins,  'UltiSnips'           ) "   a multi-file search utility
 
                                                     " NICETIES
 call add(g:my_vim_plugins,  'matchit.zip'         ) "   better % matching
@@ -52,8 +54,7 @@ function! EnsureVamIsOnDisk(vam_install_path)
     return 1
   else
     call mkdir(a:vam_install_path, 'p')
-    "execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager'
-    execute '!git clone --depth=1 git://github.com/rocksolidwebdesign/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager'
+    call system('git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '.shellescape(a:vam_install_path, 1).'/vim-addon-manager')
 
     exec 'helptags '.fnameescape(a:vam_install_path.'/vim-addon-manager/doc')
     return eval(is_installed_c)
@@ -98,9 +99,7 @@ function! SetupVAM()
 
   " Tell VAM which plugins to fetch & load:
   " silent! vam#ActivateAddons(g:my_vim_plugins, {'auto_install' : 1})
-  let g:vam_silent_log = 1
   call vam#ActivateAddons(g:my_vim_plugins)
-  unlet g:vam_silent_log
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory

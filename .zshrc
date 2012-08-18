@@ -24,7 +24,7 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
+#eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -37,7 +37,7 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # }}}
-# Prompt {{{
+# {{{
 parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
@@ -45,16 +45,18 @@ parse_git_branch() {
 # ░▒▓██▓▒░
 setPrompt() {
     PS1="
-%b%F{red}%K{black}%{░▒▓%}%b%F{red}%K{yellow}%{█▓▒░%}%B%F{black}%K{yellow}%n%B%F{red}%K{yellow}@%B%F{black}%K{yellow}%m%b%F{green}%K{yellow}%{░▒▓██%}%b%F{green}%K{black}%{▓▒░%}%B%F{white}%K{black} %D{%H:%M.%S}%b%f%k %B%{$fg[magenta]%}$(parse_git_branch)%b%f%k
+%b%F{green}%K{black}%{░▒▓%}%b%F{green}%K{blue}%{█▓▒░%}%B%F{white}%K{blue}%n@%m%b%F{green}%K{blue}%{░▒▓██%}%b%F{green}%K{black}%{▓▒░%}%B%F{white}%K{black} %D{%H:%M:%S}%b%f%k %B%{$fg[magenta]%}$(parse_git_branch)%b%f%k
 %}%b%f%k%# "
-    RPS1="%B%F{yellow}%K{black}%~%{$reset_color%}"
+    #PS1="%{$fg[green]%}%n%{$fg[blue]%}@%{$fg[green]%}%m%{$fg[magenta]%}$(parse_git_branch)%{$reset_color%}%# "
+    RPS1="%B%F{blue}%K{black}%~%{$reset_color%}"
 }
+
 precmd() {
     setPrompt
 }
 # }}}
 # Aliases {{{
-alias ls="ls --color --group-directories-first -CX"
+alias ls="ls -GF"
 alias ll="ls"
 alias l="ls -lh"
 alias la="ls -A"
@@ -87,17 +89,12 @@ export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
 export RUBY_GC_MALLOC_LIMIT=1000000000
 export RUBY_HEAP_FREE_MIN=500000
 
-export TERM=xterm-256color
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
-
-export PATH=$PATH:$HOME/.rvm/bin
-source $HOME/.rvm/scripts/rvm # Add RVM to PATH for scripting
-
-export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+#export TERM=xterm-256color
+export EDITOR=$HOME/.bin/vim
+export VISUAL=$HOME/.bin/vim
 
 export ANDROID_HOME=/media/user/Library/android-sdk-linux
-export PATH=$PATH:/media/user/bin:/media/user/Library/android-sdk-linux/tools:/media/user/Library/android-sdk-linux/platform-tools
+export PATH=$HOME/.bin:$PATH:/media/user/bin:/media/user/Library/android-sdk-linux/tools:/media/user/Library/android-sdk-linux/platform-tools
 # }}}
 
 # Untracked Mods

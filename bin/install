@@ -1,6 +1,7 @@
 #!/bin/bash
 bak_dir=$HOME/.home-config.bak
 ts=$(date +%Y-%m-%dT%H%M%S)
+mkdir -p $bak_dir
 mkdir -p $bak_dir/$ts
 
 mv $HOME/.vim         $bak_dir/$ts/.vim
