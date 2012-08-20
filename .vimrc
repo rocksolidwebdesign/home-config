@@ -15,13 +15,18 @@ syntax enable
 
 " Active Plugins {{{
 let g:my_vim_plugins  = []
-let g:my_plugin_repos = [{'name': 'jst', 'settings': { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst' }}]
+let g:my_plugin_repos  = []
+
+call add(g:my_plugin_repos, {'name': 'jst', 'settings': { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst' }})
+call add(g:my_plugin_repos, {'name': 'fugitive', 'settings': { 'type' : 'git', 'url' : '/home/vaughn/src/vim-fugitive' }})
+
                                                     " CORE
 call add(g:my_vim_plugins,  'The_NERD_tree'       ) "   file tree
+call add(g:my_vim_plugins,  'The_NERD_Commenter'  ) "   coment toggling
 call add(g:my_vim_plugins,  'ctrlp'               ) "   fuzzy finder
 call add(g:my_vim_plugins,  'ack'                 ) "   a multi-file search utility
-call add(g:my_vim_plugins,  'EasyMotion'          ) "   a multi-file search utility
-call add(g:my_vim_plugins,  'UltiSnips'           ) "   a multi-file search utility
+call add(g:my_vim_plugins,  'EasyMotion'          ) "   an enhanced f command
+call add(g:my_vim_plugins,  'UltiSnips'           ) "   a snippets plugin
 
                                                     " NICETIES
 call add(g:my_vim_plugins,  'matchit.zip'         ) "   better % matching
@@ -43,6 +48,7 @@ call add(g:my_vim_plugins,  'inkpot'              ) "  dark and blue-ish
 call add(g:my_vim_plugins,  'Solarized'           ) "  the only light scheme I like
 
 " }}}
+
 " VAM {{{
 function! EnsureVamIsOnDisk(vam_install_path)
   " windows users may want to use http://mawercer.de/~marc/vam/index.php
@@ -68,14 +74,11 @@ function! MyExtraVamRepos()
     let d[repo['name']] = repo['settings']
   endfor
 
-  " the old way of doing it
-  " let d['jst'] = { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst.git' }
-
   return d
 endfunction
 
 function! SetupVAM()
-  let g:vim_addon_manager = {'shell_commands_run_method': 'system','auto_install': 1, 'known_repos_activation_policy': 'always'}
+  let g:vim_addon_manager = {'shell_commands_run_method': 'system', 'auto_install': 1, 'known_repos_activation_policy': 'always'}
   let g:vim_addon_manager.pool_fun = function('MyExtraVamRepos')
 
   " Set advanced options like this:
@@ -98,8 +101,9 @@ function! SetupVAM()
   exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
 
   " Tell VAM which plugins to fetch & load:
-  " silent! vam#ActivateAddons(g:my_vim_plugins, {'auto_install' : 1})
   call vam#ActivateAddons(g:my_vim_plugins)
+  " this is just here so I can easily do completion
+  " call vam#ActivateAddons([''])
   " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
   " Addons are put into vam_install_path/plugin-name directory
@@ -194,7 +198,8 @@ elseif has("unix")
 endif
 " }}}
 " }}}
-" Variable Settings {{{
+
+ " Plugin Settings {{{
 
 " prevent annoying warnings from nerdtree
 let g:NERDShutUp = 1
@@ -208,11 +213,27 @@ let g:html_tag_case = 'lowercase'
 let g:sql_type_default = 'pgsql'
 let g:miniBufExplTabWrap = 1
 
+let g:insertlessly_cleanup_trailing_ws = 0
+let g:insertlessly_cleanup_all_ws = 0
+
+"let g:php_sync_method = 0
+let g:php_sync_method = 100
+
 " taglist plugin settings
 let Tlist_Auto_Highlight_Tag = 0
 let Tlist_Sort_Type = "name"
 let Tlist_Highlight_Tag_On_BufEnter = 0
 let Tlist_Use_Right_Window = 1
+let Tlist_WinWidth = 'auto'
+
+" use a vertical window split
+let g:yankring_window_use_horiz   = 0
+
+" don't include single character deletes
+let g:yankring_min_element_length = 2
+
+" truncate each paste at 50 chars to keep the window width small
+let g:yankring_max_display        = 50
 
 " don't bother to colorize end tags differently
 " based on what type of block is being ended
@@ -236,6 +257,7 @@ if !empty(matchstr($MY_RUBY_HOME, 'jruby'))
   let g:ruby_path = '/home/vaughn/.rvm/rubies/jruby-1.6.7.2/lib/ruby/1.9,/home/vaughn/.rvm/rubies/jruby-1.6.7.2/lib/ruby/site_ruby/shared'
 endif
 " }}}
+
 " GUI vs Console {{{
 " ****************************************************************
 set winaltkeys=no
@@ -250,31 +272,33 @@ if v:version >= 700
 endif
 
 " Setup Toolbars
-set guioptions=t " with menubar and toolbar and tearoffs
+set guioptions=ti " with menubar and toolbar and tearoffs
 
 " Set Font
 if has("win32")
     set gfn=DejaVu_Sans_Mono:h8:cANSI
 elseif has("unix")
     set gfn=DejaVu\ Sans\ Mono\ 9
+elseif has("macunix")
+    set gfn=DejaVu\ Sans\ Mono:h11
 endif
 
 " light in gvim, dark in terminal
 if has("gui_running")
-    colorscheme molokai
-    hi Folded guifg=#dddddd guibg=#1B1D1E
+    "colorscheme molokai
+    "hi Folded guifg=#dddddd guibg=#1B1D1E
 
     "colorscheme inkpot
     "hi Folded guibg=#1c314c guifg=#dddddd
 
-    "colorscheme solarized
-    "set background=light
+    colorscheme solarized
+    set background=light
 else
-    colorscheme molokai
-    hi Folded guibg=#1c314c guifg=#dddddd
+    "colorscheme molokai
+    "hi Folded guifg=#dddddd guibg=#1B1D1E
 
-    "colorscheme inkpot
-    "hi Folded guibg=#1c314c guifg=#dddddd
+    colorscheme inkpot
+    hi Folded guibg=#1c314c guifg=#dddddd
 
     "colorscheme solarized
     "set background=light
@@ -283,6 +307,7 @@ else
     set mouse=a
 endif
 " }}}
+
 " Auto Commands {{{
 "autocmd FileType xml,xhtml,html,php,phtml,eruby,jst runtime scripts/closetag.vim
 
@@ -296,45 +321,64 @@ autocmd BufRead  *.wsgi       set ft=python
 autocmd BufWrite *.wsgi       set ft=python
 autocmd BufRead  *.haml.js    set ft=haml
 autocmd BufRead  *.jst.haml   set ft=haml
-autocmd BufRead  *            set sts=2 sw=2
+autocmd BufEnter *.html       set sts=2 sw=2
+autocmd BufEnter *.ctp        set sts=2 sw=2 " cake templates
+autocmd BufNew,BufRead *      set relativenumber
 " }}}
-" Key Mappings {{{
-let maplocalleader = "_"
+
+ " Key Mappings {{{
+let maplocalleader = "-"
+
+nmap <Return> <Plug>OpenNewline
+nmap <S-Return> <Plug>InsertNewLine
 
 " fast .vimrc access
-nnoremap <Leader>v :e ~/.vimrc<CR>
-nnoremap <Leader>o :source ~/.vimrc<CR>
+nnoremap <LocalLeader>v :e ~/.vimrc<CR>
+nnoremap <LocalLeader>o :source ~/.vimrc<CR>
 
 " toggles
 let g:ctrlp_map = '<Leader>p'
 
-"nnoremap <Leader>p :CtrlP<CR>
-nnoremap <Leader>f :botright copen<CR>
-nnoremap <Leader>x :cclose<CR>
-nnoremap <Leader>t :TlistToggle<CR>
-nnoremap <Leader>d :NERDTree ~/Desktop<CR>
-nnoremap <Leader>n :NERDTreeToggle<CR>
-nnoremap <Leader>b :NERDTree
-nnoremap <Leader>h :set hls!<CR>
-nnoremap <Leader>r :call ToggleRelativeNumber()<CR>
-vnoremap <Leader>r :call ToggleRelativeNumberVisual()<CR>
-nnoremap <Leader>w :call ToggleWrap()<CR>
-nnoremap <Leader>m :call ToggleMousePaste()<CR>
-nnoremap <Leader>z :syntax on<CR>
+nnoremap <LocalLeader>f :botright copen<CR>
+nnoremap <LocalLeader>x :cclose<CR>
+nnoremap <LocalLeader>t :TlistToggle<CR>
+nnoremap <LocalLeader>n :NERDTreeToggle<CR>
+nnoremap <LocalLeader>h :set hls!<CR>
+nnoremap <Return>       :call ToggleFold()<CR>
+nnoremap <LocalLeader>r :call ToggleRelativeNumber()<CR>
+vnoremap <LocalLeader>r :call ToggleRelativeNumberVisual()<CR>
+nnoremap <LocalLeader>w :call ToggleWrap()<CR>
+nnoremap <LocalLeader>m :call ToggleMousePaste()<CR>
+nnoremap <LocalLeader>z :syntax on<CR>
+nnoremap <LocalLeader>yr :YRShow<CR>
+nnoremap <LocalLeader>yc :YRClear<CR>
+nnoremap <LocalLeader>y1 :YRGetElem 1<CR>
+nnoremap <LocalLeader>y2 :YRGetElem 2<CR>
+nnoremap <LocalLeader>y3 :YRGetElem 3<CR>
+nnoremap <LocalLeader>y4 :YRGetElem 4<CR>
+nnoremap <LocalLeader>y5 :YRGetElem 5<CR>
+nnoremap <LocalLeader>y6 :YRGetElem 6<CR>
+nnoremap <LocalLeader>y7 :YRGetElem 7<CR>
+nnoremap <LocalLeader>y8 :YRGetElem 8<CR>
+nnoremap <LocalLeader>y9 :YRGetElem 9<CR>
+nnoremap <LocalLeader>y0 :YRGetElem 10<CR>
 
 " filters
-nnoremap <Leader>q {v}!par -jw
-vnoremap <Leader>q !par -jw
-vnoremap <Leader>a !perl ~/.vim/bin/align.pl -c:=
-nnoremap <Leader>s :call StripWhitespace()<CR>
+nnoremap <LocalLeader>q {v}!par -jw
+vnoremap <LocalLeader>q !par -jw
+vnoremap <LocalLeader>a !perl ~/.vim/bin/align.pl -c:=
+nnoremap <LocalLeader>s :call StripWhitespace()<CR>
 
 " javascript specific stuff
-nnoremap <Leader>jsb :call JsBeautify()<CR>
-vnoremap <Leader>jsb :call JsBeautifyRange()<CR>
+nnoremap <LocalLeader>jsb :call JsBeautify()<CR>
+vnoremap <LocalLeader>jsb :call JsBeautifyRange()<CR>
 
-nnoremap <Leader>jsy ^yypysiW)kysiW"ysiW)^iconsole.log<ESC>j^.$a;<ESC>k$a;<ESC>
-nnoremap <Leader>jsl ^v$hS"gvS)^iconsole.log<ESC>$a;<ESC>
-vnoremap <Leader>jsl S"gvS)^iconsole.log<ESC>$a;<ESC>
+nmap <LocalLeader>jsy ^yypysiW)kysiW"ysiW)^iconsole.log<ESC>j^.$a;<ESC>k$a;<ESC>
+nmap <LocalLeader>jsl ^v$hS"gvS)^iconsole.log<ESC>$a;<ESC>
+vmap <LocalLeader>jsl S"gvS)^iconsole.log<ESC>$a;<ESC>
+
+nmap <LocalLeader>pdv ysiW(^iecho "<pre>"; var_dump<ESC>$a; exit;<ESC>
+nmap <LocalLeader>pdf ysiW(ysi((iget_class_methods<ESC>^iecho "<pre>"; var_dump<ESC>$a; exit;<ESC>
 
 " auto insert curly braces on Control-F
 inoremap <C-F> {<CR>}<C-O>O
@@ -343,6 +387,7 @@ inoremap <C-F> {<CR>}<C-O>O
 " editor things like copy paste save
 " close and quit
 nnoremap <M-q> :qa!<CR>
+nnoremap <M-a> ggVG
 nnoremap <M-v> "+P
 nnoremap <M-V> "+p
 vnoremap <M-c> "+y
@@ -353,13 +398,21 @@ nnoremap <M-W> :bd<CR>
 nnoremap <M-n> :bn<CR>
 nnoremap <M-p> :bp<CR>
 
+nnoremap <M-1> :YRGetElem 1<CR>
+nnoremap <M-2> :YRGetElem 2<CR>
+nnoremap <M-3> :YRGetElem 3<CR>
+nnoremap <M-4> :YRGetElem 4<CR>
+nnoremap <M-5> :YRGetElem 5<CR>
+nnoremap <M-6> :YRGetElem 6<CR>
+nnoremap <M-7> :YRGetElem 7<CR>
+nnoremap <M-8> :YRGetElem 8<CR>
+nnoremap <M-9> :YRGetElem 9<CR>
+nnoremap <M-0> :YRGetElem 10<CR>
+
 " show and hide the menubar, toolbar and scrollbar respectively
 nnoremap <C-F1> :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 nnoremap <C-F2> :if &go=~#'T'<Bar>set go-=T<Bar>else<Bar>set go+=T<Bar>endif<CR>
 nnoremap <C-F3> :if &go=~#'r'<Bar>set go-=r<Bar>else<Bar>set go+=r<Bar>endif<CR>
-
-" override spacebar to open and close folds
-nnoremap <space> :call ToggleFold()<CR>
 
 " make indentation easier by default
 nnoremap < <<
@@ -373,6 +426,7 @@ nnoremap <C-e> j<C-e>
 nnoremap <C-y> k<C-y>
 
 " }}}
+
 " Functions {{{
 function! ToggleMousePaste()
     if &mouse == 'a'
@@ -390,7 +444,7 @@ endfunction
 
 function! ToggleRelativeNumberVisual()
     call ToggleRelativeNumber()
-    normal gv
+    normal gvj
 endfunction
 
 function! ToggleRelativeNumber()
@@ -551,5 +605,11 @@ function! UnHamlize()
 
   " dangling script tags
   %s#<script\(.*\)>\s*$#<script \1></script>#
+endfunction
+
+function! Retab()
+  let &tabstop = &shiftwidth
+  retab
+  let &tabstop = 8
 endfunction
 " }}}

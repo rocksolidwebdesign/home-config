@@ -37,7 +37,7 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # }}}
-# {{{
+# Prompt {{{
 parse_git_branch() {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
@@ -93,9 +93,11 @@ export RUBY_HEAP_FREE_MIN=500000
 export EDITOR=$HOME/.bin/vim
 export VISUAL=$HOME/.bin/vim
 
-export ANDROID_HOME=/media/user/Library/android-sdk-linux
-export PATH=$HOME/.bin:$PATH:/media/user/bin:/media/user/Library/android-sdk-linux/tools:/media/user/Library/android-sdk-linux/platform-tools
+export ANDROID_HOME=$HOME/src/vendor/android-sdk-macosx
+export PATH=$HOME/.bin:/usr/local/Cellar/postgresql/9.1.4/bin:$PATH:/media/user/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 # }}}
 
 # Untracked Mods
 source ~/.zshrc_local
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
