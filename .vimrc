@@ -24,22 +24,22 @@ call add(g:my_vim_plugins,  'The_NERD_tree'       ) "   file tree
 call add(g:my_vim_plugins,  'The_NERD_Commenter'  ) "   coment toggling
 call add(g:my_vim_plugins,  'ctrlp'               ) "   fuzzy finder
 call add(g:my_vim_plugins,  'ack'                 ) "   a multi-file search utility
-call add(g:my_vim_plugins,  'EasyMotion'          ) "   an enhanced f command
-call add(g:my_vim_plugins,  'UltiSnips'           ) "   a snippets plugin
+"call add(g:my_vim_plugins,  'EasyMotion'          ) "   an enhanced f command
+"call add(g:my_vim_plugins,  'UltiSnips'           ) "   a snippets plugin
 
                                                     " NICETIES
-call add(g:my_vim_plugins,  'matchit.zip'         ) "   better % matching
-call add(g:my_vim_plugins,  'YankRing'            ) "   copy paste history
+"call add(g:my_vim_plugins,  'matchit.zip'         ) "   better % matching
+"call add(g:my_vim_plugins,  'YankRing'            ) "   copy paste history
 
 call add(g:my_vim_plugins,  'bufkill'             ) "   close file but not window
-call add(g:my_vim_plugins,  'fugitive'            ) "   the git plugin
+"call add(g:my_vim_plugins,  'fugitive'            ) "   the git plugin
 call add(g:my_vim_plugins,  'surround'            ) "   wrap text easily
 
                                                     " LANGUAGES
-call add(g:my_vim_plugins,  'VimClojure'          ) "   clojure
+"call add(g:my_vim_plugins,  'VimClojure'          ) "   clojure
 call add(g:my_vim_plugins,  'jst'                 ) "   Underscore.js Templates
 call add(g:my_vim_plugins,  'haml.zip'            ) "   HAML and SASS
-call add(g:my_vim_plugins,  'vim-coffee-script'   ) "   Coffeescript
+"call add(g:my_vim_plugins,  'vim-coffee-script'   ) "   Coffeescript
 
                                                     " COLORS
 call add(g:my_vim_plugins,  'molokai'             ) "  dark and colorful
