@@ -100,4 +100,4 @@ export PATH=$HOME/.bin:/usr/local/Cellar/postgresql/9.1.4/bin:$PATH:/media/user/
 # Untracked Mods
 source ~/.zshrc_local
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin:/usr/local/sbin # Add RVM to PATH for scripting

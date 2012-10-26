@@ -18,7 +18,6 @@ let g:my_vim_plugins  = []
 let g:my_plugin_repos  = []
 
 call add(g:my_plugin_repos, {'name': 'jst', 'settings': { 'type' : 'git', 'url' : 'git://github.com/briancollins/vim-jst' }})
-call add(g:my_plugin_repos, {'name': 'fugitive', 'settings': { 'type' : 'git', 'url' : '/home/vaughn/src/vim-fugitive' }})
 
                                                     " CORE
 call add(g:my_vim_plugins,  'The_NERD_tree'       ) "   file tree
@@ -152,11 +151,8 @@ set listchars=tab:\⇒\─,trail:\‣,extends:\↷,precedes:\↶
 " Or something more prominent but still thin and line oriented
 " set listchars=tab:\┼\─,trail:\˽,extends:\↷,precedes:\↶
 
-" standard-ish default-ish tab behavior
+" spaces, no tabs
 set expandtab
-set ts=8
-set sts=4
-set sw=4
 
 " search
 set ignorecase
@@ -263,7 +259,7 @@ endif
 set winaltkeys=no
 
 " Unbreak Unix style mouse selection -> copy
-vnoremap <LeftRelease> "+y<LeftRelease>gv
+"vnoremap <LeftRelease> "+y<LeftRelease>gv
 
 " tab display
 if v:version >= 700
@@ -278,9 +274,11 @@ set guioptions=ti " with menubar and toolbar and tearoffs
 if has("win32")
     set gfn=DejaVu_Sans_Mono:h8:cANSI
 elseif has("unix")
-    set gfn=DejaVu\ Sans\ Mono\ 9
-elseif has("macunix")
+  if has("macunix")
     set gfn=DejaVu\ Sans\ Mono:h11
+  else
+    set gfn=DejaVu\ Sans\ Mono\ 9
+  endif
 endif
 
 " light in gvim, dark in terminal
@@ -311,23 +309,21 @@ endif
 " Auto Commands {{{
 "autocmd FileType xml,xhtml,html,php,phtml,eruby,jst runtime scripts/closetag.vim
 
-autocmd BufRead  *.handlebars set ft=handlebars
-autocmd BufRead  *.tpl        set ft=jst
-autocmd BufRead  *.as         set ft=actionscript
-autocmd BufRead  *.mxml       set ft=mxml
-autocmd BufRead  *.conf       set ft=apache
-autocmd BufRead  *.phtml      set ft=php
-autocmd BufRead  *.wsgi       set ft=python
-autocmd BufWrite *.wsgi       set ft=python
-autocmd BufRead  *.haml.js    set ft=haml
-autocmd BufRead  *.jst.haml   set ft=haml
-autocmd BufEnter *.html       set sts=2 sw=2
-autocmd BufEnter *.ctp        set sts=2 sw=2 " cake templates
-autocmd BufNew,BufRead *      set relativenumber
+autocmd BufNew,BufRead  *.handlebars setlocal ft=handlebars
+autocmd BufNew,BufRead  *.as         setlocal ft=actionscript
+autocmd BufNew,BufRead  *.mxml       setlocal ft=mxml
+autocmd BufNew,BufRead  *.conf       setlocal ft=apache
+autocmd BufNew,BufRead  *.phtml      setlocal ft=php
+autocmd BufNew,BufRead  *.wsgi       setlocal ft=python
+autocmd BufNew,BufWrite *.wsgi       setlocal ft=python
+autocmd BufNew,BufRead  *.haml.js    setlocal ft=haml
+autocmd BufNew,BufRead  *.jst.haml   setlocal ft=haml
+autocmd BufNew,BufRead  *            setlocal relativenumber
 " }}}
 
  " Key Mappings {{{
 let maplocalleader = "-"
+let mapleader = " "
 
 nmap <Return> <Plug>OpenNewline
 nmap <S-Return> <Plug>InsertNewLine
@@ -370,12 +366,28 @@ vnoremap <LocalLeader>a !perl ~/.vim/bin/align.pl -c:=
 nnoremap <LocalLeader>s :call StripWhitespace()<CR>
 
 " javascript specific stuff
-nnoremap <LocalLeader>jsb :call JsBeautify()<CR>
-vnoremap <LocalLeader>jsb :call JsBeautifyRange()<CR>
+nnoremap <Leader>jsb :call JsBeautify()<CR>
+vnoremap <Leader>jsb :call JsBeautifyRange()<CR>
 
-nmap <LocalLeader>jsy ^yypysiW)kysiW"ysiW)^iconsole.log<ESC>j^.$a;<ESC>k$a;<ESC>
-nmap <LocalLeader>jsl ^v$hS"gvS)^iconsole.log<ESC>$a;<ESC>
-vmap <LocalLeader>jsl S"gvS)^iconsole.log<ESC>$a;<ESC>
+" js [Y]ourself, output a token's name and it's value
+nmap <Leader>jsy ^yypysiW)kysiW"ysiW)^iconsole.log<ESC>j^.$a;<ESC>k$a;<ESC>
+nmap <Leader>jsl ^v$hS"gvS)^iconsole.log<ESC>$a;<ESC>
+vmap <Leader>jsl S"gvS)^iconsole.log<ESC>$a;<ESC>
+
+" [W]ow, that's a big string you have
+nmap <Leader>ryw diWoputs "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<ESC>opp <ESC>pkk:s/^\s*\n//<CR>
+nmap <Leader>ryo oputs "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<ESC>
+
+" [E]xpression var dump, output a tokens's name and it's value
+nmap <Leader>rye yiWyss}i#<ESC>vl%S"pa: <ESC>^iputs <ESC>
+
+" [I]nterpolate, wrap a single strict word like this #{foo}
+nmap <Leader>ryi viwS}i#<ESC>
+vmap <Leader>ryi S}i#<ESC>
+
+" output an entire line of text
+nmap <Leader>ryl ^v$hS"^iputs <ESC>
+vmap <Leader>ryl S"gvS"^iputs <ESC>
 
 nmap <LocalLeader>pdv ysiW(^iecho "<pre>"; var_dump<ESC>$a; exit;<ESC>
 nmap <LocalLeader>pdf ysiW(ysi((iget_class_methods<ESC>^iecho "<pre>"; var_dump<ESC>$a; exit;<ESC>
