@@ -41,6 +41,7 @@
 .swt/
 .thumbnails/
 .thunderbird/
+.vim/vim-addons
 .vim/.netrwhist
 .vim/swp/*
 .vim.old/
