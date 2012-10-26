@@ -73,7 +73,7 @@ call add(g:my_plugin_repos, {'name': 'jst', 'settings': { 'type' : 'git', 'url' 
           exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
 
           " Tell VAM which plugins to fetch & load:
-          call vam#ActivateAddons(["The_NERD_tree" "ctrlp" "ack" "matchit".zip "YankRing" "bufkill" "surround" "jst" "haml.zip" "molokai" "inkpot" "Solarized"], {'auto_install' : 1})
+          call vam#ActivateAddons(['The_NERD_tree', 'ctrlp', 'ack', 'matchit.zip', 'YankRing', 'bufkill', 'surround', 'jst', 'haml.zip', 'molokai', 'inkpot', 'Solarized'], {'auto_install' : 1})
           " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 
           " Addons are put into vam_install_path/plugin-name directory
