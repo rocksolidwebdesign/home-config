@@ -86,7 +86,7 @@ fun! SetupVAM()
   "    ..ActivateAddons(["github:user/repo", .. => github://user/repo
   " Also see section "2.2. names of addons and addon sources" in VAM's documentation
 endfun
-" call SetupVAM()
+call SetupVAM()
 " experimental [E1]: load plugins lazily depending on filetype, See
 " NOTES
 " experimental [E2]: run after gui has been started (gvim) [3]
@@ -242,7 +242,7 @@ if has("win32")
     set gfn=DejaVu_Sans_Mono:h8:cANSI
 elseif has("unix")
   if has("macunix")
-    set gfn=DejaVu\ Sans\ Mono:h18
+    set gfn=DejaVu\ Sans\ Mono:h11
   else
     set gfn=DejaVu\ Sans\ Mono\ 9
   endif
@@ -283,8 +283,8 @@ autocmd BufNew,BufRead  *.conf       setlocal ft=apache
 autocmd BufNew,BufRead  *.phtml      setlocal ft=php
 autocmd BufNew,BufRead  *.wsgi       setlocal ft=python
 autocmd BufNew,BufWrite *.wsgi       setlocal ft=python
-autocmd BufNew,BufRead  *.jst.hamljs setlocal ft=haml
-autocmd BufNew,BufRead  *.m          setlocal ft=octave
+autocmd BufNew,BufRead  *.haml.js    setlocal ft=haml
+autocmd BufNew,BufRead  *.jst.haml   setlocal ft=haml
 autocmd BufNew,BufRead  *            setlocal relativenumber
 " }}}
 
@@ -347,7 +347,7 @@ nmap <Leader>jal ^v$hS"gvS)^iSystem.out.println<ESC>$a;<ESC>
 vmap <Leader>jal S"gvS)^iSystem.out.println<ESC>$a;<ESC>
 
 " [W]ow, that's a big string you have
-nmap <Leader>ryw diWoputs "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<ESC>opp <ESC>pkk:s/^\s*\n//<CR>oputs "<ESC>pa"<ESC>kk:s/^\s*\n//<CR>
+nmap <Leader>ryw diWoputs "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<ESC>opp <ESC>pkk:s/^\s*\n//<CR>
 nmap <Leader>ryo oputs "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<ESC>
 
 " [E]xpression var dump, output a tokens's name and it's value
