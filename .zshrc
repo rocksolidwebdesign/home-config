@@ -39,7 +39,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # }}}
 
 # more vim like bindings for vi edit mode
-source ~/.zsh_vim_mode.zsh
+#source ~/.zsh_vim_mode.zsh
 
 # custom functions
 knife() {
@@ -112,7 +112,7 @@ export RUBY_HEAP_FREE_MIN=500000
 export EDITOR=$HOME/.bin/mvim
 export VISUAL=$HOME/.bin/mvim
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+#export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 
 export ANT_HOME=/usr/local/apache-ant/apache-ant.1.8.4
 export M2_HOME=/usr/local/apache-maven/apache-maven-3.0.4
@@ -124,4 +124,4 @@ export PATH=$M2:$ANT_HOME/bin:$HOME/.bin:/usr/local/Cellar/postgresql/9.1.4/bin:
 # Untracked Mods
 source ~/.zshrc_local
 
-export PATH=$PATH:$HOME/.rvm/bin:/usr/local/sbin # Add RVM to PATH for scripting
+export PATH=$HOME/.rvm/bin:$PATH:/usr/local/sbin # Add RVM to PATH for scripting

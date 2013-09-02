@@ -235,7 +235,7 @@ if v:version >= 700
 endif
 
 " Setup Toolbars
-set guioptions=ti " with menubar and toolbar and tearoffs
+"set guioptions=ti " with menubar and toolbar and tearoffs
 
 " Set Font
 if has("win32")
@@ -244,7 +244,7 @@ elseif has("unix")
   if has("macunix")
     set gfn=DejaVu\ Sans\ Mono:h18
   else
-    set gfn=DejaVu\ Sans\ Mono\ 9
+    set gfn=DejaVu\ Sans\ Mono\ 11
   endif
 endif
 
