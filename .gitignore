@@ -43,7 +43,8 @@
 .thunderbird/
 .vim/vim-addons
 .vim/.netrwhist
-.vim/swp/*
+swp
+.swp
 .vim.old/
 .viminfo
 .vimrc.old
