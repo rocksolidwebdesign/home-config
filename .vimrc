@@ -4,7 +4,6 @@ if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
 endif
 
-" Option Settings {{{
 if has('autocmd')
   filetype plugin indent on
 endif
@@ -13,6 +12,41 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
+" Font and Colorscheme {{{
+if has("gui_running")
+  if has("win32")
+    set gfn=DejaVu_Sans_Mono:h8:cANSI
+  elseif has("unix")
+    if has("macunix")
+      set gfn=DejaVu\ Sans\ Mono:h18
+    else
+      set gfn=DejaVu\ Sans\ Mono\ 14
+    endif
+  endif
+
+  " colorscheme softlight
+  " hi Special gui=NONE guifg=#0E8ED3 guibg=#ffffff
+
+  "colorscheme softblue
+
+  colorscheme google
+  hi Statement guifg=#2a5db0 guibg=#ffffff gui=bold
+else
+  if &t_Co == 8 && $TERM !~# '^linux'
+    set t_Co=16
+  endif
+
+  "colorscheme molokai
+  "hi Folded guifg=#dddddd guibg=#1B1D1E
+
+  colorscheme inkpot
+  hi Folded guibg=#1c314c guifg=#dddddd
+
+  set mouse=a
+end
+" }}}
+
+" Option Settings {{{
 set hidden
 set wildmenu
 set nocompatible
@@ -21,8 +55,12 @@ set ruler
 set showcmd
 set autoread
 
+" handle gui settings and platform discrepancies
+if &encoding ==# 'latin1' && has('gui_running')
+  set encoding=utf-8
+endif
+
 set list
-"set encoding=utf8
 
 " I  like this personally
 set listchars=tab:\⇒\─,trail:\‣,extends:\↷,precedes:\↶
@@ -83,60 +121,18 @@ autocmd BufNew,BufRead  * setlocal relativenumber
 
 " Sophisticated Swap Files
 if has("win32")
-    if exists("my_diff_mode_flag") && my_diff_mode_flag == 1
-        set directory=C:\WINDOWS\Temp,~\tmp,~,~\vimfiles\swpdiff,.
-    else
-        set directory=C:\WINDOWS\Temp,~\tmp,~,~\vimfiles\swp,.
-    endif
+  if exists("my_diff_mode_flag") && my_diff_mode_flag == 1
+    set directory=C:\WINDOWS\Temp,~\tmp,~,~\vimfiles\swpdiff,.
+  else
+    set directory=C:\WINDOWS\Temp,~\tmp,~,~\vimfiles\swp,.
+  endif
 elseif has("unix")
-    if exists("my_diff_mode_flag") && my_diff_mode_flag == 1
-        set directory=/tmp,~/.swpdiff,~/tmp,~/.vim/.swpdiff,~/.vim/swpdiff,~,.
-    else
-        set directory=/tmp,~/.swp,~/tmp,~/.vim/.swp,~/.vim/swp,~,.
-    endif
+  if exists("my_diff_mode_flag") && my_diff_mode_flag == 1
+    set directory=/tmp,~/.swpdiff,~/tmp,~/.vim/.swpdiff,~/.vim/swpdiff,~,.
+  else
+    set directory=/tmp,~/.swp,~/tmp,~/.vim/.swp,~/.vim/swp,~,.
+  endif
 endif
-
-" handle gui settings and platform discrepancies
-if &encoding ==# 'latin1' && has('gui_running')
-  set encoding=utf-8
-endif
-
-if has("gui_running")
-     if has("win32")
-         set gfn=DejaVu_Sans_Mono:h8:cANSI
-     elseif has("unix")
-       if has("macunix")
-         set gfn=DejaVu\ Sans\ Mono:h18
-       else
-         set gfn=DejaVu\ Sans\ Mono\ 11
-       endif
-     endif
-
-    "colorscheme molokai
-    "hi Folded guifg=#dddddd guibg=#1B1D1E
-
-    "colorscheme inkpot
-    "hi Folded guibg=#1c314c guifg=#dddddd
-
-    colorscheme pyte
-    "set background=light
-else
-    if &t_Co == 8 && $TERM !~# '^linux'
-      set t_Co=16
-    endif
-
-    "colorscheme molokai
-    "hi Folded guifg=#dddddd guibg=#1B1D1E
-
-    colorscheme inkpot
-    hi Folded guibg=#1c314c guifg=#dddddd
-
-    "colorscheme solarized
-    "set background=light
-
-    "set t_Co=256
-    set mouse=a
-end
 " }}}
 
 " Plugin Settings {{{
@@ -172,7 +168,7 @@ let ruby_no_expensive = 1
 " Auto Commands {{{
 " }}}
 
- " Key Mappings {{{
+" Key Mappings {{{
 let maplocalleader = "-"
 let mapleader = " "
 
@@ -297,77 +293,77 @@ nnoremap <C-y> k<C-y>
 
 " Functions {{{
 function! ToggleMousePaste()
-    if &mouse == 'a'
-        set paste
-        set mouse=
-        set nonumber
-        echo 'Mouse Paste ON'
-    else
-        set nopaste
-        set number
-        set mouse=a
-        echo 'Mouse Paste OFF'
-    endif
+  if &mouse == 'a'
+    set paste
+    set mouse=
+    set nonumber
+    echo 'Mouse Paste ON'
+  else
+    set nopaste
+    set number
+    set mouse=a
+    echo 'Mouse Paste OFF'
+  endif
 endfunction
 
 function! ToggleRelativeNumberVisual()
-    call ToggleRelativeNumber()
-    normal gvj
+  call ToggleRelativeNumber()
+  normal gvj
 endfunction
 
 function! ToggleRelativeNumber()
-    if( &nu == 1 )
-        set nonu
-        set rnu
-    else
-        set nu
-        set nornu
-    endif
+  if( &nu == 1 )
+    set nonu
+    set rnu
+  else
+    set nu
+    set nornu
+  endif
 endfunction
 
 function! ToggleWrap()
-    set wrap!
+  set wrap!
 
-    if( &wrap == 1 )
-        nmap j gj
-        nmap k gk
-    else
-        unmap j
-        unmap k
-    endif
+  if( &wrap == 1 )
+    nmap j gj
+    nmap k gk
+  else
+    unmap j
+    unmap k
+  endif
 endfunction
 
 function! ToggleFold()
-    if foldlevel('.') == 0
-        normal! l
+  if foldlevel('.') == 0
+    normal! l
+  else
+    if foldclosed('.') < 0
+      . foldclose
     else
-        if foldclosed('.') < 0
-            . foldclose
-        else
-            . foldopen
-        endif
+      . foldopen
     endif
-    " Clear status line
-    echo
+  endif
+  " Clear status line
+  echo
 endfunction
 
 function! StripWhitespace()
-    let currPos=Mark()
-    exe 'v:^--\s*$:s:\s\+$::e'
-    exe currPos
+  let currPos=Mark()
+  exe 'v:^--\s*$:s:\s\+$::e'
+  exe currPos
 endfunction
 
 function! Mark(...)
-    if a:0 == 0
-        let mark = line(".") . "G" . virtcol(".") . "|"
-        normal! H
-        let mark = "normal!" . line(".") . "Gzt" . mark
-        execute mark
-        return mark
-    elseif a:0 == 1
-        return "normal!" . a:1 . "G1|"
-    else
-        return "normal!" . a:1 . "G" . a:2 . "|"
-    endif
+  if a:0 == 0
+    let mark = line(".") . "G" . virtcol(".") . "|"
+    normal! H
+    let mark = "normal!" . line(".") . "Gzt" . mark
+    execute mark
+    return mark
+  elseif a:0 == 1
+    return "normal!" . a:1 . "G1|"
+  else
+    return "normal!" . a:1 . "G" . a:2 . "|"
+  endif
 endfunction
 " }}} Functions 

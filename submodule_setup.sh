@@ -15,6 +15,7 @@ git submodule add git@github.com:vim-scripts/bufkill.vim.git  .vim/bundle/buffki
 git submodule add git@github.com:tpope/vim-fugitive.git       .vim/bundle/fugitive
 git submodule add git@github.com:flazz/vim-colorschemes.git   .vim/bundle/colorschemes
 git submodule add git@github.com:scrooloose/syntastic.git     .vim/bundle/syntastic
+git submodule add git@github.com:pangloss/vim-javascript.git  .vim/bundle/javascript
 # git submodule add git@github.com:Shutnik/jshint2.vim.git      .vim/bundle/jshint2
 
 # SYNTAX
