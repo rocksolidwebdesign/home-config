@@ -24,23 +24,29 @@ if has("gui_running")
     endif
   endif
 
-  " colorscheme softlight
-  " hi Special gui=NONE guifg=#0E8ED3 guibg=#ffffff
+  colorscheme solarized
+  set background=light
+
+  "colorscheme molokai
+  "hi Folded guifg=#dddddd guibg=#1B1D1E
+
+  "colorscheme softlight
+  "hi Special gui=NONE guifg=#0E8ED3 guibg=#ffffff
 
   "colorscheme softblue
 
-  colorscheme google
-  hi Statement guifg=#2a5db0 guibg=#ffffff gui=bold
+  "colorscheme google
+  "hi Statement guifg=#2a5db0 guibg=#ffffff gui=bold
 else
   if &t_Co == 8 && $TERM !~# '^linux'
     set t_Co=16
   endif
 
-  "colorscheme molokai
-  "hi Folded guifg=#dddddd guibg=#1B1D1E
+  colorscheme molokai
+  hi Folded guifg=#dddddd guibg=#1B1D1E
 
-  colorscheme inkpot
-  hi Folded guibg=#1c314c guifg=#dddddd
+  "colorscheme inkpot
+  "hi Folded guibg=#1c314c guifg=#dddddd
 
   set mouse=a
 end
@@ -56,9 +62,9 @@ set showcmd
 set autoread
 
 " handle gui settings and platform discrepancies
-if &encoding ==# 'latin1' && has('gui_running')
-  set encoding=utf-8
-endif
+"if &encoding ==# 'latin1' && has('gui_running')
+"  set encoding=utf-8
+"endif
 
 set list
 
@@ -116,9 +122,6 @@ set sessionoptions+=resize
 set laststatus=2
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%{fugitive#statusline()}%=%-16(\ %l,%c\ %)%P
 
-" keep relative line number on permanently/by default
-autocmd BufNew,BufRead  * setlocal relativenumber
-
 " Sophisticated Swap Files
 if has("win32")
   if exists("my_diff_mode_flag") && my_diff_mode_flag == 1
@@ -166,10 +169,13 @@ let ruby_no_expensive = 1
 " }}}
 
 " Auto Commands {{{
+" keep relative line number on permanently/by default
+autocmd BufNew,BufRead  * setlocal relativenumber
+autocmd BufLeave,FocusLost * silent! wall
 " }}}
 
 " Key Mappings {{{
-let maplocalleader = "-"
+let maplocalleader = "\\"
 let mapleader = " "
 
 nmap <Return> <Plug>OpenNewline
@@ -220,6 +226,8 @@ vnoremap <Leader>jsb :call JsBeautifyRange()<CR>
 nmap <Leader>jsy ^yypysiW)kysiW"ysiW)^iconsole.log<ESC>j^.$a;<ESC>k$a;<ESC>
 nmap <Leader>jsl ^v$hS"gvS)^iconsole.log<ESC>$a;<ESC>
 vmap <Leader>jsl S"gvS)^iconsole.log<ESC>$a;<ESC>
+nmap <Leader>jsf o'': function() {<CR>},<CR><ESC>kOvar view;<CR><CR>view = this;<CR><ESC>5k0wa
+nmap <Leader>jsc ifunction() {<CR>}<ESC>k/function<CR>f(a
 
 " Java
 nmap <Leader>jay ^yypysiW)kysiW"ysiW)^iSystem.out.println<ESC>j^.$a;<ESC>k$a;<ESC>
