@@ -64,3 +64,12 @@
 [submodule ".vim/bundle/javascript"]
 	path = .vim/bundle/javascript
 	url = git@github.com:pangloss/vim-javascript.git
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
+	url = git@github.com:majutsushi/tagbar.git
+[submodule ".vim/bundle/tern_for_vim"]
+	path = .vim/bundle/tern_for_vim
+	url = git@github.com:marijnh/tern_for_vim.git
+[submodule ".vim/bundle/syntax"]
+	path = .vim/bundle/syntax
+	url = git@github.com:octol/vim-cpp-enhanced-highlight.git

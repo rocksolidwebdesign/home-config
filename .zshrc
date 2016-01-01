@@ -7,8 +7,8 @@ h() { if [ -z "$*" ]; then history 1; else history 1 | egrep "$@"; fi; }
 
 setopt histignorealldups sharehistory
 
-# Use vim keybindings even if our EDITOR is set to emacs
-#bindkey -e
+# Use emacs keybindings even if our EDITOR is set to vim
+bindkey -e
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
@@ -67,7 +67,7 @@ precmd() {
 }
 # }}}
 # Aliases {{{
-alias ls="ls -GF"
+alias ls="ls -CF --color"
 alias ll="ls"
 alias l="ls -lh"
 alias la="ls -A"
@@ -102,26 +102,38 @@ alias gr='git fetch origin; git rebase origin/$(parse_git_branch)'
 alias grm='git fetch origin master:master && git rebase master'
 # }}}
 # Environment Vars {{{
-export RUBY_HEAP_MIN_SLOTS=1000000
-export RUBY_HEAP_SLOTS_INCREMENT=1000000
-export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
-export RUBY_GC_MALLOC_LIMIT=1000000000
-export RUBY_HEAP_FREE_MIN=500000
 
-#export TERM=xterm-256color
-export EDITOR=$HOME/.bin/mvim
-export VISUAL=$HOME/.bin/mvim
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/gvim
 
-#export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+# personal
+export PATH="$HOME/bin:$PATH"
 
-export ANT_HOME=/usr/local/apache-ant/apache-ant.1.8.4
-export M2_HOME=/usr/local/apache-maven/apache-maven-3.0.4
-export M2=$M2_HOME/bin
-export ANDROID_HOME=$HOME/src/vendor/android-sdk-macosx
-export PATH=$M2:$ANT_HOME/bin:$HOME/.bin:/usr/local/Cellar/postgresql/9.1.4/bin:$PATH:/media/user/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+# nodejs
+export PATH="$PATH:$HOME/install/node-v0.12.7-linux-x64/bin" # Add RVM to PATH for scripting
+#export PATH="$PATH:$HOME/install/node-v4.2.1-linux-x64/bin" # Add RVM to PATH for scripting
+
+# haskell
+export PATH="$HOME/.cabal/bin:/opt/cabal/head/bin:/opt/ghc/7.8.4/bin:$PATH"
+
+# wine
+export WINEPREFIX=$HOME/.wine
+export WINEARCH=win32
+
+# scala
+export SCALA_HOME="$HOME/install/scala-2.11.7"
+export PATH="$SCALA_HOME/bin:$PATH"
+
+# maven
+export PATH="$HOME/install/apache-maven-3.3.3/bin:$PATH"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+#export QT_SELECT="qt5-x86_64-linux-gnu"
+#export QT_SELECT="qt4-x86_64-linux-gnu"
+
+[ -n "$TMUX" ] && export TERM=screen-256color
 # }}}
 
-# Untracked Mods
-source ~/.zshrc_local
-
-export PATH=$HOME/.rvm/bin:$PATH:/usr/local/sbin # Add RVM to PATH for scripting
+# personal modifications
+source $HOME/.zshrc_local

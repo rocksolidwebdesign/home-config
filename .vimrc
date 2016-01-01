@@ -24,11 +24,11 @@ if has("gui_running")
     endif
   endif
 
-  colorscheme solarized
-  set background=light
+  "colorscheme solarized
+  "set background=light
 
-  "colorscheme molokai
-  "hi Folded guifg=#dddddd guibg=#1B1D1E
+  colorscheme molokai
+  hi Folded guifg=#dddddd guibg=#1B1D1E
 
   "colorscheme softlight
   "hi Special gui=NONE guifg=#0E8ED3 guibg=#ffffff
@@ -100,11 +100,13 @@ if !&sidescrolloff
 endif
 
 " search
+set nosmartindent
 set ignorecase
 set smartcase
 set incsearch
 set nohlsearch
 set nowrap
+set showmatch
 
 " window splits
 set winminheight=0
@@ -139,8 +141,19 @@ endif
 " }}}
 
 " Plugin Settings {{{
-" /usr/lib/llvm-3.2/lib/libclang.so.1
-let g:clang_library_path = "/usr/lib/llvm-3.2/lib"
+
+"let g:tagbar_ctags_bin = 'jsctags -r'
+
+let g:jsx_ext_required = 1
+
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+" let g:clang_library_path = '/usr/lib/x86_64-linux-gnu/libclang-3.4.so.1'
+" let g:clang_library_path = '/usr/lib/llvm-3.4/lib/libclang.so.1'
+let g:clang_library_path = '/usr/lib/llvm-3.4/lib'
 
 " prevent annoying warnings from nerdtree
 let g:NERDShutUp = 1
@@ -190,7 +203,7 @@ let g:ctrlp_map = '<Leader>p'
 
 nnoremap <LocalLeader>f :botright copen<CR>
 nnoremap <LocalLeader>x :cclose<CR>
-nnoremap <LocalLeader>t :TlistToggle<CR>
+nnoremap <LocalLeader>t :TagbarToggle<CR>
 nnoremap <LocalLeader>n :NERDTreeToggle<CR>
 nnoremap <LocalLeader>h :set hls!<CR>
 nnoremap <Return>       :call ToggleFold()<CR>
