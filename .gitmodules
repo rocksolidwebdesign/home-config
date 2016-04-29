@@ -73,3 +73,6 @@
 [submodule ".vim/bundle/syntax"]
 	path = .vim/bundle/syntax
 	url = git@github.com:octol/vim-cpp-enhanced-highlight.git
+[submodule ".vim/bundle/vim-less"]
+	path = .vim/bundle/vim-less
+	url = git@github.com:genoma/vim-less.git

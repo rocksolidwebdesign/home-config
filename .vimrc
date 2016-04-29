@@ -28,7 +28,8 @@ if has("gui_running")
   "set background=light
 
   colorscheme molokai
-  hi Folded guifg=#dddddd guibg=#1B1D1E
+  "hi Folded guifg=#dddddd guibg=#1B1D1E
+  hi Folded guifg=#dddddd guibg=#222222
 
   "colorscheme softlight
   "hi Special gui=NONE guifg=#0E8ED3 guibg=#ffffff
@@ -43,7 +44,8 @@ else
   endif
 
   colorscheme molokai
-  hi Folded guifg=#dddddd guibg=#1B1D1E
+  "hi Folded guifg=#dddddd guibg=#1B1D1E
+  hi Folded guifg=#dddddd guibg=#222222
 
   "colorscheme inkpot
   "hi Folded guibg=#1c314c guifg=#dddddd
@@ -60,6 +62,9 @@ set number
 set ruler
 set showcmd
 set autoread
+set winaltkeys=no
+"set guioptions=aegimrLtT
+set guioptions=aegirLtT
 
 " handle gui settings and platform discrepancies
 "if &encoding ==# 'latin1' && has('gui_running')
@@ -147,7 +152,6 @@ endif
 let g:jsx_ext_required = 1
 
 let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
 let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
@@ -184,7 +188,7 @@ let ruby_no_expensive = 1
 " Auto Commands {{{
 " keep relative line number on permanently/by default
 autocmd BufNew,BufRead  * setlocal relativenumber
-autocmd BufLeave,FocusLost * silent! wall
+"autocmd BufLeave,FocusLost * silent! wall
 " }}}
 
 " Key Mappings {{{
@@ -195,6 +199,7 @@ nmap <Return> <Plug>OpenNewline
 nmap <S-Return> <Plug>InsertNewLine
 
 " fast .vimrc access
+nnoremap <Leader>htm :read ~/src/home-config/template.html<CR>
 nnoremap <LocalLeader>v :e ~/.vimrc<CR>
 nnoremap <LocalLeader>o :source ~/.vimrc<CR>
 

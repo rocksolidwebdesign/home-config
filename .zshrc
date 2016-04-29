@@ -102,38 +102,39 @@ alias gr='git fetch origin; git rebase origin/$(parse_git_branch)'
 alias grm='git fetch origin master:master && git rebase master'
 # }}}
 # Environment Vars {{{
+if [ -n "$TMUX" ]; then
+  export TERM=screen-256color
+else
+  export TERM=xterm-256color
+fi
 
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/gvim
 
-# personal
-export PATH="$HOME/bin:$PATH"
-
-# nodejs
-export PATH="$PATH:$HOME/install/node-v0.12.7-linux-x64/bin" # Add RVM to PATH for scripting
-#export PATH="$PATH:$HOME/install/node-v4.2.1-linux-x64/bin" # Add RVM to PATH for scripting
-
-# haskell
-export PATH="$HOME/.cabal/bin:/opt/cabal/head/bin:/opt/ghc/7.8.4/bin:$PATH"
-
 # wine
-export WINEPREFIX=$HOME/.wine
-export WINEARCH=win32
+#export WINEPREFIX=$HOME/.wine
+#export WINEARCH=win32
 
-# scala
-export SCALA_HOME="$HOME/install/scala-2.11.7"
-export PATH="$SCALA_HOME/bin:$PATH"
+# Android
+export ANDROID_HOME="$HOME/install/android-sdk-linux"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
 
-# maven
-export PATH="$HOME/install/apache-maven-3.3.3/bin:$PATH"
+# fix for android tools under Ubuntu 14.04
+# export SWT_GTK3=0
+# export GTK2_RC_FILES=/usr/share/themes/Raleigh/gtk-2.0/
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-#export QT_SELECT="qt5-x86_64-linux-gnu"
-#export QT_SELECT="qt4-x86_64-linux-gnu"
-
-[ -n "$TMUX" ] && export TERM=screen-256color
+export GOROOT="$HOME/install/go"
+export GOPATH="$HOME/golang"
+export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 # }}}
+
+# personal
+export PATH="$HOME/bin:$HOME/install/phantomjs-1.9.8-linux-x86_64/bin:$HOME/install/racket/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/lib"
+
+#export NVM_DIR="/home/vaughn/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # personal modifications
 source $HOME/.zshrc_local
