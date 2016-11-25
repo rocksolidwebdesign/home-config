@@ -67,7 +67,11 @@ precmd() {
 }
 # }}}
 # Aliases {{{
-alias ls="ls -CF --color"
+if [[ `uname -s` == "Darwin" ]] then; 
+	alias ls="ls -CFG"
+else
+	alias ls="ls -CF --color"
+fi
 alias ll="ls"
 alias l="ls -lh"
 alias la="ls -A"
