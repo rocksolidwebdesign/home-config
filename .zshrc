@@ -135,7 +135,7 @@ export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 # personal
 export PATH="$HOME/bin:$HOME/install/phantomjs-1.9.8-linux-x86_64/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 
-export NVM_DIR="/home/vaughn/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
