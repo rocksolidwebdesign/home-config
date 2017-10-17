@@ -1,0 +1,38 @@
+if [[ `uname -s` == "Darwin" ]] then;
+    alias ls="ls -CFG"
+else
+    alias ls="ls -CF --color"
+fi
+
+alias ll="ls"
+alias l="ls -lh"
+alias la="ls -A"
+alias lv="ls -lhA"
+
+# git
+alias git='noglob git'
+
+alias gf='git fetch origin'
+alias gs='git status'
+alias gd='git diff'
+
+alias ga='git add'
+alias gal='git add -A'
+
+alias gco='git checkout'
+alias gb='git branch'
+alias gst='git stash'
+alias gsa='git stash apply'
+
+alias gcm='git commit -m'
+alias gcam='git commit -a -m'
+
+alias gp='git push -u origin HEAD'
+alias gpf='git push --force origin HEAD'
+
+alias gu='git fetch origin; git merge --ff-only origin/$(parse_git_branch)'
+alias gr='git fetch origin; git rebase origin/$(parse_git_branch)'
+
+# if the fast forward of master is successful, we'll then
+# rebase the current branch on to our local copy of master
+alias grm='git fetch origin master:master && git rebase master'

@@ -1,0 +1,16 @@
+parse_git_branch() {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+# ░▒▓██▓▒░
+setPrompt() {
+    PS1="
+%b%F{green}%K{black}%{░▒▓%}%b%F{green}%K{blue}%{█▓▒░%}%B%F{white}%K{blue}%n@%m%b%F{green}%K{blue}%{░▒▓██%}%b%F{green}%K{black}%{▓▒░%}%B%F{white}%K{black} %D{%H:%M:%S}%b%f%k %B%{$fg[magenta]%} ( $(parse_git_branch) )%b%f%k
+%}%b%f%k %(?,%F{green}:%),%F{yellow}%? %F{red}:()%f %# "
+    #PS1="%{$fg[green]%}%n%{$fg[blue]%}@%{$fg[green]%}%m%{$fg[magenta]%}$(parse_git_branch)%{$reset_color%}%# "
+    RPS1="%B%F{blue}%K{black}%~%{$reset_color%}"
+}
+
+precmd() {
+    setPrompt
+}
