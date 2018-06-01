@@ -55,5 +55,5 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # personal modifications
-source $HOME/.zshrc_local
+source $HOME/.zsh_local
 
